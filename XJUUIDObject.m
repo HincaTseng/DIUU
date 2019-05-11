@@ -9,7 +9,7 @@
 #import "XJUUIDObject.h"
 #import <UIKit/UIPasteboard.h>
 #import "UICKeyChainStore.h"
-
+#import "Reachability.h"
 static NSString *XJUUIDCache = nil;
 
 static NSString *const XJUUID = @"com.xj.uuid";
@@ -30,6 +30,9 @@ static int const XJUUIDRedundancySlots = 100;
     return keychainStore[@"uuid"];
 }
 
++ (NSString *)networkType {
+    return [self currentNetworkType];
+}
 
 + (NSString *)getMYUUID {
     CFUUIDRef uuid = CFUUIDCreate(NULL);
@@ -130,6 +133,32 @@ static int const XJUUIDRedundancySlots = 100;
     }
     XJUUIDCache = aaXJUUID;
     return XJUUIDCache;
+}
+
+- (NSString *)currentNetworkType {
+    
+    Reachability *reachability   = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    
+    NSString *networkType = @"";
+    switch (internetStatus) {
+        case ReachableViaWiFi:
+            networkType = @"NetWorkTypeWiFi";
+            break;
+            
+        case ReachableViaWWAN:
+            networkType = @"NetWorkTypeWWAN";
+            break;
+            
+        case NotReachable:
+            networkType = @"NetWorkTypeNone";
+            break;
+            
+        default: networkType = @"error privacy";
+            break;
+    }
+    
+    return networkType;
 }
 
 @end

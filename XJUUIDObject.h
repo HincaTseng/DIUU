@@ -19,6 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)UUID;
 
+/**
+ [XJUUIDObject networkType];
+
+ @return NetWorkTypeWiFi,NetWorkTypeWWAN,NetWorkTypeNone,error privacy
+ */
++ (NSString *)networkType;
+
 @end
 
 NS_ASSUME_NONNULL_END
